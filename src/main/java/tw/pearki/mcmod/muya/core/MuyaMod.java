@@ -1,6 +1,6 @@
-package io.github.legacymoddingmc.unimixins.example;
+package tw.pearki.mcmod.muya.core;
 
-import static io.github.legacymoddingmc.unimixins.example.Constants.LOGGER;
+import static tw.pearki.mcmod.muya.core.Constants.LOGGER;
 
 import net.minecraft.init.Blocks;
 import cpw.mods.fml.common.Mod;
@@ -8,7 +8,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 
 @Mod(modid = Constants.MODID, version = Constants.VERSION)
-public class ExampleMod
+public class MuyaMod
 {   
     @EventHandler
     public void init(FMLInitializationEvent event)

@@ -25,9 +25,12 @@ buildscript {
 apply plugin: 'forge'
 
 version = "1.0"
-group= "io.github.legacymoddingmc.example" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "UniMixinsExample"
-def modid = "unimixinsexample"
+group = "tw.pearki.mcmod.muya.core" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "MuyaCore"
+def modid = "muyacore"
+
+sourceCompatibility = '8'
+targetCompatibility = '8'
 
 minecraft {
     version = "1.7.10-10.13.4.1614-1.7.10"
@@ -45,9 +48,9 @@ repositories {
     }
     maven {
         // Baubles
-		name = "Overmind forge repo mirror"
-		url = "https://gregtech.overminddl1.com/"
-	}
+        name = "Overmind forge repo mirror"
+        url = "https://gregtech.overminddl1.com/"
+    }
 }
 
 dependencies {
@@ -55,7 +58,7 @@ dependencies {
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
-      
+
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
@@ -63,30 +66,30 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-    
+
     // Baubles is our test subject for late mixins
     implementation "com.azanor.baubles:Baubles:1.7.10-1.0.1.10:deobf"
 }
 
 processResources
-{
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+        {
+            // this will ensure that this task is redone when the versions change.
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
+            // replace stuff in mcmod.info, nothing else
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
+
+                // replace version and mcversion
+                expand 'version': project.version, 'mcversion': project.minecraft.version
+            }
+
+            // copy everything else, thats not the mcmod.info
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }
 
 // -- Begin UniMixins section --
 
@@ -101,8 +104,8 @@ repositories {
 def unimixinsVersion = "0.1.14"
 
 dependencies {
-    implementation("com.github.LegacyModdingMC.UniMixins:unimixins-all-1.7.10:$unimixinsVersion:dev")
-    annotationProcessor("com.github.LegacyModdingMC.UniMixins:unimixins-all-1.7.10:$unimixinsVersion:dev")
+    implementation("com.github.LegacyModdingMC.UniMixins:unimixins-mixin-1.7.10:$unimixinsVersion")
+    annotationProcessor("com.github.LegacyModdingMC.UniMixins:unimixins-mixin-1.7.10:$unimixinsVersion")
 }
 
 // Exclude conflicting transitive dependencies.
@@ -133,31 +136,31 @@ def outRefMapFile = "${tasks.compileJava.temporaryDir}/mixins.${modid}.refmap.js
 
 jar {
     manifest {
-        attributes (
-            // This is the regular way of registering Mixin configs.
-            // Setting the tweak class allows Mixin to discover your mod.
-            'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-            // Mixin will automatically register any configs specified here.
-            'MixinConfigs': "mixins.${modid}.json",
-            
-            // To use the IEarlyMixinLoader interface, an FML plugin needs to be
-            // registered.
-            // Note: the previous two properties aren't required for the early
-            // interface.
-            'FMLCorePlugin': 'io.github.legacymoddingmc.unimixins.example.ExampleCore',
-            
-            // If your mod also contains a Forge mod (marked by a @Mod annotation),
-            // these need to be set or it will get ignored.
-            // Note that a Forge mod is required for late mixins to work.
-            //
-            // Allow Mixin to discover the Forge mod if FMLCorePluginContainsFMLMod
-            // is also set:
-            'ForceLoadAsMod': 'true',
-            // Allow Forge to discover the Forge mod:
-            'FMLCorePluginContainsFMLMod': 'true',
+        attributes(
+                // This is the regular way of registering Mixin configs.
+                // Setting the tweak class allows Mixin to discover your mod.
+                'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+                // Mixin will automatically register any configs specified here.
+                'MixinConfigs': "mixins.${modid}.json",
+
+                // To use the IEarlyMixinLoader interface, an FML plugin needs to be
+                // registered.
+                // Note: the previous two properties aren't required for the early
+                // interface.
+                'FMLCorePlugin': 'tw.pearki.mcmod.muya.core.MuyaCore',
+
+                // If your mod also contains a Forge mod (marked by a @Mod annotation),
+                // these need to be set or it will get ignored.
+                // Note that a Forge mod is required for late mixins to work.
+                //
+                // Allow Mixin to discover the Forge mod if FMLCorePluginContainsFMLMod
+                // is also set:
+                'ForceLoadAsMod': 'true',
+                // Allow Forge to discover the Forge mod:
+                'FMLCorePluginContainsFMLMod': 'true',
         )
     }
-    
+
     from outRefMapFile;
 }
 
@@ -166,3 +169,43 @@ tasks.compileJava.options.compilerArgs += ["-AreobfSrgFile=${tasks.reobf.srg}", 
 reobf {
     addExtraSrgFile outSrgFile
 }
+
+// 和其他模組打包
+task finalJar(type: Jar) {
+    group = "build"
+    archiveBaseName.set(archivesBaseName)
+    archiveVersion.set(version)
+    archiveClassifier.set("with-mixin")
+
+    doLast {
+        println "Final jar task executed"
+        println "Final JAR archive: ${archiveFile}"
+    }
+
+    from {
+        def reobfJar = tasks.jar.archivePath
+        println "Including reobf JAR: ${reobfJar}"
+        zipTree(reobfJar)
+    }
+
+    from {
+        configurations.runtimeClasspath.findAll {
+            it.name.contains("unimixins")
+        }.collect {
+            println "Including dependency JAR: ${it}"
+            zipTree(it)
+        }
+    }
+
+    manifest {
+        attributes(
+                'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+                'MixinConfigs': "mixins.${modid}.json",
+                'FMLCorePlugin': 'tw.pearki.mcmod.muya.core.MuyaCore',
+                'FMLCorePluginContainsFMLMod': 'true',
+                'ForceLoadAsMod': 'true'
+        )
+    }
+}
+
+build.dependsOn finalJar

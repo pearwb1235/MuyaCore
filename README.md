@@ -46,7 +46,7 @@ To run using a native IDE run configuration, you must add the following program 
 ...And the following JVM argument:
 
 ```
--Dfml.coreMods.load=io.github.legacymoddingmc.unimixins.example.ExampleCore
+-Dfml.coreMods.load=ExampleCore
 ```
 
 ## License

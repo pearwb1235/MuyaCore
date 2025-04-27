@@ -1,14 +1,14 @@
 [
 {
-  "modid": "unimixinsexample",
-  "name": "UniMixins Example Mod",
-  "description": "Example mod that shows how to get started with using UniMixins.",
+  "modid": "muyacore",
+  "name": "Muya Core",
+  "description": "\\u59c6\\u4e9e\\u6838\\u5fc3",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["makamys"],
-  "credits": "",
+  "authorList": ["pearwb1235"],
+  "credits": ["makamys"],
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

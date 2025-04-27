@@ -1,6 +1,6 @@
-package io.github.legacymoddingmc.unimixins.example.mixin;
+package tw.pearki.mcmod.muya.core.mixin;
 
-import static io.github.legacymoddingmc.unimixins.example.Constants.LOGGER;
+import static tw.pearki.mcmod.muya.core.Constants.LOGGER;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Inject;
